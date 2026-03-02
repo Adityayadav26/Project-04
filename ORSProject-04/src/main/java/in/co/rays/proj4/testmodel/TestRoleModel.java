@@ -18,17 +18,16 @@ public class TestRoleModel {
 
 	public static void main(String[] args) throws Exception {
 
-		 //testNextPk();
-//		testadd();
-		//testupdate();
-		//testdelete();
-		//testfindbypk();
-		//testfindByName();
-		testsearch();
-		
-     }
+		// testNextPk();
+		testAdd();
+		// testUpdate();
+		// testDelete();
+		// testfindBypk();
+		// testfindByName();
+           //testsearch();
+	}
 
-	private static void testadd() throws ApplicationException, DuplicateRecordException {
+	private static void testAdd() throws Exception {
 
 		try {
 			RoleBean bean = new RoleBean();
@@ -39,81 +38,73 @@ public class TestRoleModel {
 			bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
 			bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
 			long pk = model.add(bean);
-			 System.out.println("Data Successfull Add");
+			System.out.println("Data Successfull Add");
 		} catch (ApplicationException | DuplicateRecordException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private static void testNextPk() throws DatabaseException {
+	private static void testNextPk() throws Exception {
 
 		RoleModel r = new RoleModel();
 		int i = r.nextPk();
 		System.out.println(i);
 	}
-	
-	private static void testupdate() throws ApplicationException, SQLException {
-		
-			RoleBean bean = new RoleBean();
-			bean.setId(3);
-			bean.setName("admin");
-			bean.setDescription("admin");
-			bean.setCreatedBy("collegeee");
-			bean.setModifiedBy("collegeeee");
-			bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
-			bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
-			model.update(bean);
-			
-			}
-	
-	private static void testdelete() throws SQLException {
-		
+
+	private static void testUpdate() throws ApplicationException, SQLException {
+
+		RoleBean bean = new RoleBean();
+		bean.setId(3);
+		bean.setName("admin");
+		bean.setDescription("admin");
+		bean.setCreatedBy("collegeee");
+		bean.setModifiedBy("collegeeee");
+		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
+		bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
+		model.update(bean);
+
+	}
+
+	private static void testDelete() throws SQLException {
+
 		RoleBean bean = new RoleBean();
 		bean.setId(4);
 		model.delete(bean);
 	}
-	
-	private static void testfindbypk() throws Exception{
-		
+
+	private static void testfindBypk() throws Exception {
+
 		RoleBean bean = model.findByPk(2L);
-		
+
 		System.out.println(bean.getId());
 		System.out.println(bean.getName());
 		System.out.println(bean.getDescription());
-		
-		}
-	
+
+	}
+
 	private static void testfindByName() throws Exception {
 		RoleBean bean = model.findByName("admin");
-		
+
 		System.out.println(bean.getId());
 		System.out.println(bean.getName());
 		System.out.println(bean.getDescription());
 	}
-	
+
 	private static void testsearch() throws Exception {
 		RoleBean bean = new RoleBean();
 		List list = new ArrayList();
 		bean.setName("student");
 		list = model.Search(bean);
-		
+
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
 			bean = (RoleBean) it.next();
 			System.out.println(bean.getId());
 			System.out.println(bean.getName());
 			System.out.println(bean.getDescription());
-		
-	}
-			
-	}
-	}	
-			
-			
-	
-	
-			
-		
-	
 
+		}
 
+	}
+
+}

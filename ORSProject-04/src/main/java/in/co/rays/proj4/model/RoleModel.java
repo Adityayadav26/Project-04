@@ -15,12 +15,12 @@ import in.co.rays.proj4.util.JDBCDataSource;
 
 public class RoleModel {
 
-	public Integer nextPk() throws DatabaseException {
+	public Integer nextPk() throws  Exception {
 
 		Connection conn = null;
 		int pk = 0;
 
-		try {
+	
 			conn = JDBCDataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("Select max(id) from st_role");
 			ResultSet rs = pstmt.executeQuery();
@@ -28,29 +28,19 @@ public class RoleModel {
 				pk = rs.getInt(1);
 			}
 			rs.close();
-			pstmt.close();
-		} catch (Exception e) {
-			throw new DatabaseException("Exception:Exception in getting pk");
-		} finally {
 			JDBCDataSource.closeConnection(conn);
-
-		}
 
 		return pk + 1;
 
 	}
 
-	public long add(RoleBean bean) throws ApplicationException, DuplicateRecordException {
+	public long add(RoleBean bean) throws ApplicationException, DuplicateRecordException, Exception {
 
 		Connection conn = null;
 		int pk = 0;
 
-//		RoleBean existBean = findByName(bean.getName());
-//		
-//		if (existBean != null) {
-//			throw new DuplicateRecordException("Role already exists");
 
-		try {
+	
 			pk = nextPk();
 
 			conn = JDBCDataSource.getConnection();
@@ -65,18 +55,8 @@ public class RoleModel {
 			pstmt.setTimestamp(7, bean.getModifiedDatetime());
 			pstmt.executeUpdate();
 			conn.commit();
-			pstmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				conn.rollback();
-			} catch (Exception ex) {
-				throw new ApplicationException("Exception : add rollback exception " + ex.getMessage());
-			}
-			throw new ApplicationException("Exception : Exception in add Role");
-		} finally {
-			JDBCDataSource.closeConnection(conn);
-		}
+		    JDBCDataSource.closeConnection(conn);
+		
 		return pk;
 
 	}
@@ -163,7 +143,6 @@ public class RoleModel {
 		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
-
 	public List<RoleBean> Search(RoleBean bean) throws Exception {
 
 		StringBuffer sql = new StringBuffer("Select * from st_role where 1= 1");
@@ -189,4 +168,5 @@ public class RoleModel {
 		return list;
 
 	}
+
 }
